@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DSnake", "3DSnake.csproj", "{344EC165-1856-4A95-ADEF-2AB18EBFEFA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDL2", "SDL2", "{11D27C4C-2B54-475D-8E39-3A8EDDF9476A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\..\Downloads\SDL2.cs = ..\..\..\..\..\..\Downloads\SDL2.cs
+		..\..\..\..\..\..\Downloads\SDL2_gfx.cs = ..\..\..\..\..\..\Downloads\SDL2_gfx.cs
+		..\..\..\..\..\..\Downloads\SDL2_image.cs = ..\..\..\..\..\..\Downloads\SDL2_image.cs
+		..\..\..\..\..\..\Downloads\SDL2_mixer.cs = ..\..\..\..\..\..\Downloads\SDL2_mixer.cs
+		..\..\..\..\..\..\Downloads\SDL2_ttf.cs = ..\..\..\..\..\..\Downloads\SDL2_ttf.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{344EC165-1856-4A95-ADEF-2AB18EBFEFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344EC165-1856-4A95-ADEF-2AB18EBFEFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344EC165-1856-4A95-ADEF-2AB18EBFEFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344EC165-1856-4A95-ADEF-2AB18EBFEFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5D82DF1-1C9B-43C5-9E77-A3E345515159}
+	EndGlobalSection
+EndGlobal

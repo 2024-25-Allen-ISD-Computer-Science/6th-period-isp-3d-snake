@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DnfC9AE5H7obK3nqBgVPKZnDfqcSrYKWxi97jk0DNzusm1yTAsMzdsghxey5U42qjB9JQtN+InenDWd5xGaCEw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\appma\\Desktop\\STEM\\Coding\\3DSnake\\6th-period-isp-3d-snake\\3DSnake\\3DSnake.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\appma\\.nuget\\packages\\sayers.sdl2.core\\1.0.11\\sayers.sdl2.core.1.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}
