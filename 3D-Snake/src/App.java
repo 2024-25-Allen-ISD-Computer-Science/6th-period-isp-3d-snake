@@ -1,8 +1,8 @@
-import application.SDL;
+import application.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        // System.out.println("Hello, World!");
-        SDL sdl = new SDL();
+        OpenGL openGL = new OpenGL();
+        openGL.run();
     }
 }
