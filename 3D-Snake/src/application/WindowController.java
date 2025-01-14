@@ -13,9 +13,9 @@ public class WindowController {
     //
     // dunno yet
     //
-    private static final float fov = (float) Math.toRadians(60);
-    private static final float zFar = 0.01f;
-    private static final float zNear = 1000f;
+    private static final float FOV = (float) Math.toRadians(60);
+    private static final float Z_FAR = 0.01f;
+    private static final float Z_NEAR = 1000f;
 
     //
     // Display
@@ -190,6 +190,10 @@ public class WindowController {
         return terminate;
     }
 
+    public void setTitle(String title) {
+        GLFW.glfwSetWindowTitle(window, title);
+    }
+
     //
     // Projection Matrix (whatever that is)
     //
@@ -199,11 +203,11 @@ public class WindowController {
 
     public Matrix4f updateMatrix() {
         float aspectRatio = (float) width / height;
-        return projectMatrix.setPerspective(fov, aspectRatio, zNear, zFar);
+        return projectMatrix.setPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
     }
 
     public Matrix4f updateMatrix(Matrix4f matrix, int height, int width) {
         float aspectRatio = (float) width / height;
-        return matrix.setPerspective(fov, aspectRatio, zNear, zFar);
+        return matrix.setPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
     }
 }
