@@ -1,0 +1,209 @@
+package application;
+
+import org.joml.Matrix4f;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryUtil;
+
+public class WindowController {
+    private long window;
+    //
+    // dunno yet
+    //
+    private static final float fov = (float) Math.toRadians(60);
+    private static final float zFar = 0.01f;
+    private static final float zNear = 1000f;
+
+    //
+    // Display
+    //
+    private final Matrix4f projectMatrix;
+    private String title;
+    private int width;
+    private int height;
+
+    //
+    // Functions
+    //
+    private boolean resize;
+    private boolean terminate;
+    private boolean maximized;
+
+    //
+    // Settings
+    //
+    private long monitor;
+    private boolean vSync;
+
+    public WindowController(String title, int height, int width, boolean vSync, long monitor) {
+        //
+        // Display
+        //
+        this.title = title;
+        this.height = height;
+        this.width = width;
+        projectMatrix = new Matrix4f();
+
+        //
+        // Functions
+        //
+        terminate = false;
+        maximized = false;
+
+        //
+        // Settings
+        //
+        this.vSync = vSync;
+        // 0 for windowed, number for full screen on a certain monitor
+        this.monitor = 0;
+    }
+
+    /**
+     * Initializes the window controller.
+     */
+    public void initialize() {
+        // Where all error msgs get printed?
+        GLFWErrorCallback.createPrint(System.err).set();
+
+        // Init GLFW
+        if (!GLFW.glfwInit()) {
+            throw new Error("'GLFW used Bozo'n Around! It was super effective!'\nGLFW couldn't initialize.");
+        }
+
+        //
+        // Window Settings
+        //
+
+        // Resets all window settings
+        GLFW.glfwDefaultWindowHints();
+
+        // Sets window settings
+        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GL11.GL_FALSE);
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GL11.GL_TRUE);
+        // Which OpenGL version should be used?
+        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
+        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 2);
+        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE);
+        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GL11.GL_TRUE);
+
+        // Check if it should be maximized.
+        if (width == 0 || height == 0) {
+            width = 100;
+            height = 100;
+            GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
+            maximized = true;
+        }
+
+        // Creates the window
+        window = GLFW.glfwCreateWindow(width, height, title, monitor, 0);
+
+        // If the window wasn't created?
+        if (window == MemoryUtil.NULL) {
+            throw new Error("'Window used L Bozo! It was super effective!'\nThe window couldn't initialize.");
+        }
+
+        // Area of memory that holds color data for the screen
+        GLFW.glfwSetFramebufferSizeCallback(window, (window, height, width) -> {
+            this.width = width;
+            this.height = height;
+            this.setResize(true);
+        });
+
+        GLFW.glfwSetWindowSizeCallback(window, (window, height, width) -> {
+            this.height = height;
+            this.width = width;
+        });
+
+        if (maximized) {
+            GLFW.glfwMaximizeWindow(window);
+        } else {
+            GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);
+            GLFW.glfwSetWindowPos(window, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
+        }
+
+        GLFW.glfwMakeContextCurrent(window);
+        GLFW.glfwShowWindow(window);
+
+        GL.createCapabilities();
+
+        GL11.glClearColor(0f, 0f, 0f, 0f);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_STENCIL_TEST);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+    }
+
+    /**
+     * What should be run every tick?
+     */
+    public void execute() {
+        // Swaps the loaded screen with what should be loaded
+        GLFW.glfwSwapBuffers(window);
+        // Loads events into the event handler.
+        GLFW.glfwPollEvents();
+
+        // Check for termination
+        if (GLFW.glfwWindowShouldClose(window)) {
+            this.terminate();
+        }
+    }
+
+    /**
+     * What should happen when the window is terminated?
+     */
+    public void terminate() {
+        terminate = true;
+        GLFW.glfwDestroyWindow(this.window);
+    }
+
+    //
+    // Get & Set Functions
+    //
+    public void setResize(boolean resize) {
+        this.resize = resize;
+    }
+
+    public boolean getResize() {
+        return resize;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public boolean isTerminated() {
+        return terminate;
+    }
+
+    //
+    // Projection Matrix (whatever that is)
+    //
+    public Matrix4f getMatrix() {
+        return projectMatrix;
+    }
+
+    public Matrix4f updateMatrix() {
+        float aspectRatio = (float) width / height;
+        return projectMatrix.setPerspective(fov, aspectRatio, zNear, zFar);
+    }
+
+    public Matrix4f updateMatrix(Matrix4f matrix, int height, int width) {
+        float aspectRatio = (float) width / height;
+        return matrix.setPerspective(fov, aspectRatio, zNear, zFar);
+    }
+}
