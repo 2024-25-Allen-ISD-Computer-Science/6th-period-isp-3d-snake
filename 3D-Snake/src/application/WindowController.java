@@ -112,12 +112,14 @@ public class WindowController {
             this.setResize(true);
         });
 
+        // Handles how the window is resized
         GLFW.glfwSetWindowSizeCallback(window, (window, height, width) -> {
             this.height = height;
             this.width = width;
         });
 
-        if (maximized) {
+        if (maximized || monitor == 0) {
+            maximized = true;
             GLFW.glfwMaximizeWindow(window);
         } else {
             GLFWVidMode vidMode = GLFW.glfwGetVideoMode(monitor);

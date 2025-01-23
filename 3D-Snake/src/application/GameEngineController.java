@@ -6,17 +6,18 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 public class GameEngineController {
 
     private static final long NANOSECOND = 1000000000L; // number of nanoseconds in a second
-    private static final long FRAMERATE = 1000; // 1000 frames per second
+    private static final long FRAMERATE = 1000; // 1000 frames per time
 
     private int fps; // the actual frames per second
-    private static float frametime = 1f / FRAMERATE; // the time between frames
+    private static float frametime = 1f / FRAMERATE; // how long it takes to render one frame, so time/frames
+                                                     // (seconds/frames)
     boolean isRunning = false;
 
     private WindowController window;
     private GLFWErrorCallback errorCallback;
 
     public GameEngineController() {
-        window = new WindowController("3D Snake", 10, 10, false, 0);
+        window = new WindowController("3D Snake", 10, 10, false, GLFW.glfwGetPrimaryMonitor());
 
         // Setting where any errors are registered
         errorCallback = GLFWErrorCallback.createPrint(System.err);
@@ -37,44 +38,46 @@ public class GameEngineController {
      */
     public void execute() {
         isRunning = true;
-        int frames = 0; // how many frames have successfully been rendered
+        int f_p = 0; // frames processed
         long frameCounter = 0;
-        long lastTime = System.nanoTime();
-        double unprocessedTime = 0; // time (in seconds) that weren't rendered
+        long t_0 = System.nanoTime(); // starting time, aka time nought
+        double t_u = 0; // time (in seconds) that weren't rendered
 
         while (isRunning) {
             boolean render = false;
 
-            long startTime = System.nanoTime(); // when does this frame start?
-            long elapsedTime = startTime - lastTime; // time between the last frame and the new one
-            lastTime = startTime;
+            long t_1 = System.nanoTime(); // when does this frame start?
+            long delta_t = t_1 - t_0; // time between the last frame and the new one
+            t_0 = t_1; // cuz thats how derivatives work
 
-            unprocessedTime += elapsedTime / (double) NANOSECOND; // amount of time (in seconds) that weren't rendered
-            frameCounter += elapsedTime; // number of frames
+            t_u += delta_t / (double) NANOSECOND; // amount of time (in seconds) that wasn't rendered
+            frameCounter += delta_t; // number of unprocessed frames
 
             // call method for getting inputs
 
-            // Loop to render the frame
-            while (unprocessedTime > frametime) {
+            // Sets bool to render and resets t_u because then the frame would be rendered
+            while (t_u > frametime) {
                 render = true;
-                unprocessedTime -= frametime;
+                t_u -= frametime;
 
                 if (window.isTerminated()) {
                     terminate();
                 }
 
+                // Module used to literally count the frames per second
+                // could literally be removed and no one would care
                 if (frameCounter >= NANOSECOND) {
-                    setFPS(frames);
-                    frames = 0;
+                    setFPS(f_p);
+                    f_p = 0;
                     frameCounter = 0;
                     window.setTitle("3D Snake" + getFPS());
                 }
             }
 
             if (render) {
-                execute();
+                // execute(); // Recursion bad :(
                 render();
-                frames++;
+                f_p++;
             }
         }
 
