@@ -39,7 +39,7 @@ public class GameEngineController {
     public void execute() {
         isRunning = true;
         int f_p = 0; // frames processed
-        long frameCounter = 0;
+        long t_c = 0; // tracks the amount of time passed (between 0 and 1 seconds)
         long t_0 = System.nanoTime(); // starting time, aka time nought
         double t_u = 0; // time (in seconds) that weren't rendered
 
@@ -50,8 +50,9 @@ public class GameEngineController {
             long delta_t = t_1 - t_0; // time between the last frame and the new one
             t_0 = t_1; // cuz thats how derivatives work
 
+            // tracks time through integral of rate of change of time
             t_u += delta_t / (double) NANOSECOND; // amount of time (in seconds) that wasn't rendered
-            frameCounter += delta_t; // number of unprocessed frames
+            t_c += delta_t;
 
             // call method for getting inputs
 
@@ -66,10 +67,10 @@ public class GameEngineController {
 
                 // Module used to literally count the frames per second
                 // could literally be removed and no one would care
-                if (frameCounter >= NANOSECOND) {
+                if (t_c >= NANOSECOND) {
                     setFPS(f_p);
                     f_p = 0;
-                    frameCounter = 0;
+                    t_c = 0;
                     window.setTitle("3D Snake" + getFPS());
                 }
             }
@@ -80,12 +81,6 @@ public class GameEngineController {
                 f_p++;
             }
         }
-
-        // Originally had:
-
-        // while (!window.isTerminated()) {
-        // // WINDOW.execute();
-        // }
     }
 
     public void render() {
