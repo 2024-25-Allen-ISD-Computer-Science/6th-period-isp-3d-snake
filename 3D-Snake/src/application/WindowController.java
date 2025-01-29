@@ -29,7 +29,7 @@ public class WindowController {
     // Functions
     //
     private boolean resize;
-    private boolean terminate;
+    private boolean isTerminated;
     private boolean maximized;
 
     //
@@ -50,7 +50,7 @@ public class WindowController {
         //
         // Functions
         //
-        terminate = false;
+        isTerminated = false;
         maximized = false;
 
         //
@@ -58,7 +58,7 @@ public class WindowController {
         //
         this.vSync = vSync;
         // 0 for windowed, number for full screen on a certain monitor
-        this.monitor = 0;
+        this.monitor = monitor;
     }
 
     /**
@@ -149,7 +149,7 @@ public class WindowController {
 
         // Check for termination
         if (GLFW.glfwWindowShouldClose(window)) {
-            this.terminate();
+            terminate();
         }
     }
 
@@ -157,8 +157,8 @@ public class WindowController {
      * What should happen when the window is terminated?
      */
     public void terminate() {
-        terminate = true;
-        GLFW.glfwDestroyWindow(this.window);
+        isTerminated = true;
+        GLFW.glfwDestroyWindow(window);
     }
 
     //
@@ -189,11 +189,22 @@ public class WindowController {
     }
 
     public boolean isTerminated() {
-        return terminate;
+        return isTerminated;
     }
 
     public void setTitle(String title) {
         GLFW.glfwSetWindowTitle(window, title);
+    }
+
+    /**
+     * 
+     * @param r the red value of the screen
+     * @param g the green value of the screen
+     * @param b the blue value of the screen
+     * @param a the alpha (brightness) value of the screen
+     */
+    public void setClearColor(float r, float g, float b, float a) {
+        GL11.glClearColor(r, g, b, a);
     }
 
     //

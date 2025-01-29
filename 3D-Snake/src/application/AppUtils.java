@@ -7,7 +7,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 
-public class AppConstants {
+public class AppUtils {
     // public static boolean gameLoop = true;
     //
     // IDK

@@ -5,6 +5,9 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 
 public class GameEngineController {
 
+    //
+    // Frames
+    //
     private static final long NANOSECOND = 1000000000L; // number of nanoseconds in a second
     private static final long FRAMERATE = 1000; // 1000 frames per time
 
@@ -16,8 +19,14 @@ public class GameEngineController {
     private WindowController window;
     private GLFWErrorCallback errorCallback;
 
+    //
+    // wtf is all this help-
+    //
+    private ILogic logic;
+
     public GameEngineController() {
-        window = new WindowController("3D Snake", 10, 10, false, GLFW.glfwGetPrimaryMonitor());
+        window = Launcher.getWindow();
+        logic = Launcher.getGame();
 
         // Setting where any errors are registered
         errorCallback = GLFWErrorCallback.createPrint(System.err);
@@ -27,8 +36,10 @@ public class GameEngineController {
     /**
      * What should be run on start-up?
      */
-    public void initialize() {
+    public void initialize() throws Exception {
         window.initialize();
+        logic.initialize();
+
         isRunning = true;
         execute();
     }
@@ -43,9 +54,9 @@ public class GameEngineController {
         long t_0 = System.nanoTime(); // starting time, aka time nought
         double t_u = 0; // time (in seconds) that weren't rendered
 
-        while (isRunning) {
-            boolean render = false;
+        boolean render = false;
 
+        while (isRunning) {
             long t_1 = System.nanoTime(); // when does this frame start?
             long delta_t = t_1 - t_0; // time between the last frame and the new one
             t_0 = t_1; // cuz thats how derivatives work
@@ -78,20 +89,34 @@ public class GameEngineController {
             if (render) {
                 // execute(); // Recursion bad :(
                 render();
+                // System.out.println("rendering!");
                 f_p++;
             }
+
+            render = false;
         }
     }
 
+    public void input() {
+        logic.input();
+    }
+
     public void render() {
+        logic.render();
         window.execute();
+    }
+
+    public void update() {
+        logic.update();
     }
 
     /**
      * What should be run when the game engine is stopped?
      */
     public void terminate() {
-
+        // window.terminate(); // the window is already terminated at this point
+        errorCallback.free();
+        GLFW.glfwTerminate();
     }
 
     //

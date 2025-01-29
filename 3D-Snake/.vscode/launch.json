@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launcher",
+            "request": "launch",
+            "mainClass": "application.Launcher",
+            "projectName": "3D-Snake_489e6252"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
