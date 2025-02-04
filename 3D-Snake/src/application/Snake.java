@@ -14,22 +14,21 @@ public class Snake {
     float xPos, yPos, zPos;
     float speed = 1.0f;
 
-    public void key_callback(long window, int key, int scancode, int action, int intmods) { // maybe its an int?
+    public void keyCallback(long window, int key, int scancode, int action, int mods) {
 
-        int wState = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_W);
-        int aState = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_A);
-        int sState = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_S);
-        int dState = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_D);
-
-        if (key == GLFW.GLFW_KEY_W && wState == GLFW.GLFW_PRESS) {
+        if (key == GLFW.GLFW_KEY_W && action == GLFW.GLFW_PRESS) {
             turnUp();
-        } else if (key == GLFW.GLFW_KEY_A && aState == GLFW.GLFW_PRESS) {
+        } else if (key == GLFW.GLFW_KEY_A && action == GLFW.GLFW_PRESS) {
             turnLeft();
-        } else if (key == GLFW.GLFW_KEY_S && sState == GLFW.GLFW_PRESS) {
+        } else if (key == GLFW.GLFW_KEY_S && action == GLFW.GLFW_PRESS) {
             turnDown();
-        } else if (key == GLFW.GLFW_KEY_D && dState == GLFW.GLFW_PRESS) {
+        } else if (key == GLFW.GLFW_KEY_D && action == GLFW.GLFW_PRESS) {
             turnRight();
+        } else {
+            return 0;
         }
 
     }
+
+    public void 
 }

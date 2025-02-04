@@ -15,6 +15,14 @@ public class SnakeGame implements ILogic {
     public SnakeGame() {
         window = Launcher.getWindow();
         renderer = new RenderController();
+
+        loop();
+
+        GLFW.glfwFreeCallbacks(window);
+        GLFW.glfwDestroyWindow(window);
+
+        GLFW.glfwTerminate();
+        GLFW.glfwSetErrorCallback(null).free();
     }
 
     @Override
@@ -26,6 +34,7 @@ public class SnakeGame implements ILogic {
     public void input() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'input'");
+        GLFW.glfwSetKeyCallback(window, Snake.keyCallback);
     }
 
     @Override
