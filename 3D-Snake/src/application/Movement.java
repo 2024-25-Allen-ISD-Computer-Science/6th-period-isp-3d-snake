@@ -14,4 +14,4 @@ public void move() {
         prev.set(curr);
     }
 }
-}
+
