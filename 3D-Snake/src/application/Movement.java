@@ -14,7 +14,6 @@ public void move() {
         prev.set(curr);
     }
 }
-
     public void grow() {
         // Assume the last segment's position is where the new segment should be added
         Vector3f newSegment = new Vector3f(segments.get(segments.size() - 1).getPosition());
