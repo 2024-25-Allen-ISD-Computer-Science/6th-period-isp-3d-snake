@@ -1,5 +1,7 @@
 package application;
 
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 
 import objects.ObjectLoader;
@@ -12,10 +14,12 @@ public class SnakeGame implements ILogic {
     private WindowController window;
     private ObjectLoader object;
 
+    private GLFWKeyCallback keyCallback;
+
     public SnakeGame() {
         window = Launcher.getWindow();
-        // renderer = new RenderController();
         renderer = Launcher.getRenderer();
+        GLFWKeyCallback keyCallback = GLFW.glfwSetKeyCallback(window, Snake.keyCallback()); // fix later
     }
 
     @Override
@@ -25,8 +29,7 @@ public class SnakeGame implements ILogic {
 
     @Override
     public void input() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'input'");
+
     }
 
     @Override
@@ -48,6 +51,13 @@ public class SnakeGame implements ILogic {
 
     @Override
     public void terminate() {
+        window.terminate();
+
+        keyCallback.free(); // must be object of GLFWKeyCallback then do obj.free()
+        GLFW.glfwDestroyWindow(window.getWindowID());
+
+        GLFW.glfwTerminate();
+        GLFW.glfwSetErrorCallback(null).free();
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'clear'");
     }

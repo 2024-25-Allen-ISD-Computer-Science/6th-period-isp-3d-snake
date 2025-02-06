@@ -196,6 +196,10 @@ public class WindowController {
         GLFW.glfwSetWindowTitle(window, title);
     }
 
+    public long getWindowID() {
+        return window;
+    }
+
     /**
      * 
      * @param r the red value of the screen
