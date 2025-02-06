@@ -9,18 +9,21 @@ public class Launcher {
     private static GameEngineController engine;
     private static WindowController window;
     private static SnakeGame game;
+    private static RenderController renderer;
 
     public static void main(String[] args) throws Exception {
-        window = new WindowController("3D Snake", AppUtils.height, AppUtils.height, false,
+        window = new WindowController("3D Snake", GameUtils.height, GameUtils.width, false,
                 GLFW.glfwGetPrimaryMonitor());
         game = new SnakeGame();
         engine = new GameEngineController();
+        renderer = new RenderController();
 
         try {
             engine.initialize();
         } catch (Error e) {
             System.err.println(
-                    "'The snake who doesn't show up is the snake that's a bozo.' ~ Zuan Tsu, The Art of Slithering\nThe game couldn't initialize.");
+                    "'The snake who doesn't show up is the snake that's a bozo.'\n"
+                            + "The game couldn't initialize.");
         }
     }
 
@@ -38,5 +41,9 @@ public class Launcher {
 
     public static SnakeGame getGame() {
         return game;
+    }
+
+    public static RenderController getRenderer() {
+        return renderer;
     }
 }

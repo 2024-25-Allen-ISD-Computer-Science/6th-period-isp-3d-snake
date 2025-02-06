@@ -14,7 +14,8 @@ public class SnakeGame implements ILogic {
 
     public SnakeGame() {
         window = Launcher.getWindow();
-        renderer = new RenderController();
+        // renderer = new RenderController();
+        renderer = Launcher.getRenderer();
     }
 
     @Override
@@ -42,7 +43,7 @@ public class SnakeGame implements ILogic {
         // }
 
         window.setClearColor(0, 0, 0, 0);
-        renderer.clear();
+        renderer.clear(); // might need to change -> renderer.render()
     }
 
     @Override
