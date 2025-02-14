@@ -7,21 +7,23 @@ import org.lwjgl.opengl.GL30;
 import objects.Model;
 
 public class RenderController {
-    private final WindowController WINDOW;
+    //
+    // Variables
+    //
     private ShaderController shader;
 
     public RenderController() {
-        WINDOW = Launcher.getWindow();
+
     }
 
     /**
      * What should be run on start-up?
      */
     public void initialize() throws Exception {
-        shader = new ShaderController();
-        shader.createVertexShader(GameUtils.loadResource("/shaders/vertex.vs"));
-        shader.createFragmentShader(GameUtils.loadResource("/shaders/fragment.fs"));
-        shader.link();
+        // shader = new ShaderController();
+        // shader.createVertexShader(GameUtils.loadResource("/shaders/vertex.vs"));
+        // shader.createFragmentShader(GameUtils.loadResource("/shaders/fragment.fs"));
+        // shader.link();
     }
 
     /**
@@ -31,7 +33,7 @@ public class RenderController {
         // Removes all data from the screen
         clear();
 
-        shader.bind();
+        // shader.bind();
 
         GL30.glBindVertexArray(model.getID());
         GL20.glEnableVertexAttribArray(0);
@@ -39,11 +41,11 @@ public class RenderController {
         GL20.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
 
-        shader.unbind();
+        // shader.unbind();
     }
 
     /**
-     * Clears the renderer
+     * Clears the renderer (as in it clears all models)
      */
     public void clear() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);

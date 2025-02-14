@@ -9,14 +9,12 @@ public class Launcher {
     private static GameEngineController engine;
     private static WindowController window;
     private static SnakeGame game;
-    private static RenderController renderer;
 
     public static void main(String[] args) throws Exception {
         window = new WindowController("3D Snake", GameUtils.height, GameUtils.width, false,
                 GLFW.glfwGetPrimaryMonitor());
         game = new SnakeGame();
         engine = new GameEngineController();
-        renderer = new RenderController();
 
         try {
             engine.initialize();
@@ -30,7 +28,6 @@ public class Launcher {
     //
     // Get & Set Methods
     //
-
     public static WindowController getWindow() {
         return window;
     }
@@ -41,9 +38,5 @@ public class Launcher {
 
     public static SnakeGame getGame() {
         return game;
-    }
-
-    public static RenderController getRenderer() {
-        return renderer;
     }
 }

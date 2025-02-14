@@ -27,10 +27,7 @@ public class Snake {
             turnDown();
         } else if (key == GLFW.GLFW_KEY_D && action == GLFW.GLFW_PRESS) {
             turnRight();
-        } else {
-            return 0;
         }
-
     }
 
     public void turnUp() {

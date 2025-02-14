@@ -162,7 +162,14 @@ public class WindowController {
     }
 
     //
-    // Get & Set Functions
+    // Boolean Methods
+    //
+    public boolean isKeyPressed(int keycode) {
+        return GLFW.glfwGetKey(window, keycode) == GLFW.GLFW_PRESS;
+    }
+
+    //
+    // Get & Set Methods
     //
     public void setResize(boolean resize) {
         this.resize = resize;
