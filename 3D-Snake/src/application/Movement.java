@@ -1,21 +1,14 @@
-public void changeDirection(Vector3f newDir) {
-    if (!newDir.equals(direction.negate(new Vector3f()))) direction.set(newDir);
-}
-
 public void move() {
-    
     if (segments.isEmpty()) return;
-    Vector3f prev = new Vector3f(segments.get(0).getPosition());
-    segments.get(0).incPosition(direction.x, direction.y, direction.z);
-   
-    for (int i = 1; i < segments.size(); i++) {
-        Vector3f curr = new Vector3f(segments.get(i).getPosition());
-        segments.get(i).setPosition(prev);
-        prev.set(curr);
-    }
-}
-    public void grow() {
-        // Assume the last segment's position is where the new segment should be added
-        Vector3f newSegment = new Vector3f(segments.get(segments.size() - 1).getPosition());
-        segments.add(newSegment);
 
+    // Shift every segment to the position of the segment before it
+    for (int i = segments.size() - 1; i > 0; i--) {
+        segments.get(i).set(segments.get(i - 1));
+    }
+
+    // Update the head position by adding the direction vector
+    Vector3f head = segments.get(0);
+    head.x += direction.x;
+    head.y += direction.y;
+    head.z += direction.z;
+}
