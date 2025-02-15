@@ -15,6 +15,7 @@ public class SnakeGame implements ILogic {
     public SnakeGame() {
         window = Launcher.getWindow();
         renderer = new RenderController();
+        Snake snake = new Snake();
 
         loop();
 
@@ -34,7 +35,23 @@ public class SnakeGame implements ILogic {
     public void input() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'input'");
-        GLFW.glfwSetKeyCallback(window, Snake.keyCallback);
+        int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
+        int a_state = glfwGetKey(window, GLFW.GLFW_KEY_A);
+        int s_state = glfwGetKey(window, GLFW.GLFW_KEY_S);
+        int d_state = glfwGetKey(window, GLFW.GLFW_KEY_D);
+
+
+        if (w_state == GLFW.GLFW_PRESS) {
+            snake.turnUp();
+        } else if (a_state == GLFW.GLFW_PRESS) {
+            snake.turnLeft();
+        } else if (s_state == GLFW.GLFW_PRESS) {
+            snake.turnDown();
+        } else if (d_state == GLFW.GLFW_PRESS) {
+            snake.turnRight();
+        } else {
+            System.out.println("Miscellaneous input.");
+        }
     }
 
     @Override
