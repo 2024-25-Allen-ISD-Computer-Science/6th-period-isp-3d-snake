@@ -16,7 +16,7 @@ public class GameEngineController {
                                                      // (seconds/frames)
     boolean isRunning = false;
 
-    private WindowController window;
+    private final WindowController WINDOW;
     private GLFWErrorCallback errorCallback;
 
     //
@@ -25,7 +25,7 @@ public class GameEngineController {
     private ILogic logic;
 
     public GameEngineController() {
-        window = Launcher.getWindow();
+        WINDOW = Launcher.getWindow();
         logic = Launcher.getGame();
 
         // Setting where any errors are registered
@@ -37,7 +37,7 @@ public class GameEngineController {
      * What should be run on start-up?
      */
     public void initialize() throws Exception {
-        window.initialize();
+        WINDOW.initialize();
         logic.initialize();
 
         isRunning = true;
@@ -57,6 +57,16 @@ public class GameEngineController {
         boolean render = false;
 
         while (isRunning) {
+            //
+            // Game Logic
+            //
+            input();
+            // execute(); // recursion bad :(
+            update();
+
+            //
+            // Frame rendering
+            //
             long t_1 = System.nanoTime(); // when does this frame start?
             long delta_t = t_1 - t_0; // time between the last frame and the new one
             t_0 = t_1; // cuz thats how derivatives work
@@ -72,7 +82,7 @@ public class GameEngineController {
                 render = true;
                 t_u -= frametime;
 
-                if (window.isTerminated()) {
+                if (WINDOW.isTerminated()) {
                     terminate();
                 }
 
@@ -82,7 +92,7 @@ public class GameEngineController {
                     setFPS(f_p);
                     f_p = 0;
                     t_c = 0;
-                    window.setTitle("3D Snake" + getFPS());
+                    WINDOW.setTitle("3D Snake" + getFPS());
                 }
             }
 
@@ -103,7 +113,7 @@ public class GameEngineController {
 
     public void render() {
         logic.render();
-        window.execute();
+        WINDOW.execute();
     }
 
     public void update() {
@@ -122,8 +132,8 @@ public class GameEngineController {
     //
     // Get & Set Methods
     //
-    public WindowController getWindow() {
-        return window;
+    public WindowController getWINDOW() {
+        return WINDOW;
     }
 
     public int getFPS() {
