@@ -86,11 +86,7 @@ public class SnakeGame implements ILogic {
         } else {
             inputTick++;
         }
-    }
 
-    /**
-     * This method runs periodically.
-     */
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'input'");
         int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
@@ -111,6 +107,11 @@ public class SnakeGame implements ILogic {
             System.out.println("Miscellaneous input.");
         }
     }
+
+    /**
+     * This method runs periodically.
+     */
+        
 
     @Override
     public void update() {

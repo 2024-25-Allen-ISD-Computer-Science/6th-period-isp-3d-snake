@@ -5,6 +5,17 @@ import org.joml.Vector3f;
 import org.geine.engine.core.entity.Entity; // temp code, we need to code in an entity class
 
 public class Transformation {
+    public static Matrix4f createTransformationMatrix(Entity entity) {
+        Matrix matrix = new Matrix4f();
+        matrix.identity().translate(entity.getPos()).
+            rotateX((float) Math.toRadians(entity.getRotation().x)).
+            rotateY((float) Math.toRadians(entity.getRotation().y)).
+            rotateZ((float) Math.toRadians(entity.getRotation().z)).
+            scale(entity.getScale());
+
+        return matrix;
+    }
+
     public static Matrix4f getViewMatrix(CameraController camera) {
         Vector3f pos = camera.getPosition();
         Vector3f rot = camera.getRotation();
