@@ -1,0 +1,59 @@
+* [33me97d3d1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Movement
+[31m|[m * [33mbde5eec[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Delete 3D-Snake/Strawberry.blend
+[31m|[m * [33m1f35dce[m Delete 3D-Snake/apple.blend
+[31m|[m * [33m21f0988[m Delete 3D-Snake/orange.blend
+[31m|[m * [33mc0c29e6[m Adding remodeled models
+[31m|[m * [33m020f4b0[m Merge pull request #6 from 2024-25-Allen-ISD-Computer-Science/TawqirQ-patch-2
+[31m|[m[31m/[m[34m|[m 
+[31m|[m * [33m11511ed[m Apple model
+[31m|[m[31m/[m  
+* [33m9801880[m Movement
+*   [33mc36f8b5[m Merge pull request #5 from 2024-25-Allen-ISD-Computer-Science/TawqirQ-patch-2
+[35m|[m[36m\[m  
+[35m|[m * [33mc59fb8d[m Orange
+[35m|[m[35m/[m  
+* [33m1e42ddf[m Movement
+* [33m80e14a6[m Movement
+* [33m5f2e061[m Delete
+* [33mf63777f[m Updated Movement
+* [33m7208b1f[m Updated Movement
+* [33m43f3648[m Udpated Movement
+*   [33mf96b6b4[m Merge pull request #4 from 2024-25-Allen-ISD-Computer-Science/TawqirQ-patch-1
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [33m807eb2b[m[33m ([m[1;31morigin/TawqirQ-patch-1[m[33m)[m Strawberry model
+[1;31m|[m[1;31m/[m  
+*   [33m7a30667[m Merge pull request #3 from 2024-25-Allen-ISD-Computer-Science/TawqirQ-IndvSnakeParts
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33me247a94[m[33m ([m[1;31morigin/TawqirQ-IndvSnakeParts[m[33m)[m Individual Snake Parts
+[1;33m|[m[1;33m/[m  
+*   [33md126a90[m Merge pull request #2 from 2024-25-Allen-ISD-Computer-Science/TawqirQ-added_snake
+[1;35m|[m[1;36m\[m  
+[1;35m|[m * [33m5e7cca3[m[33m ([m[1;31morigin/TawqirQ-added_snake[m[33m)[m 3D Snake models
+[1;35m|[m[1;35m/[m  
+* [33mc4d3913[m java dev (#1)
+[1;36m|[m *   [33m1ee55fd[m[33m ([m[1;31morigin/java-dev[m[33m)[m Should've pulled before pushing changes woops
+[1;36m|[m [31m|[m[32m\[m  
+[1;36m|[m [31m|[m * [33md48949e[m wrote methods for turning and declared + instantiated position and direction vectors for snake
+[1;36m|[m [31m|[m * [33m05f92b7[m fixed keycallback method and called it in snake game method
+[1;36m|[m * [32m|[m [33m7c1296d[m W10.V1: ShaderController.java Removed App.java Replaced AppUtils.java for GameUtils.java Removed the deprecated OpenGL.java class
+[1;36m|[m [32m|[m[32m/[m  
+[1;36m|[m * [33mf908981[m W9.V1 gitignore, object rendering, gamelogic, edit to game engine i think
+[1;36m|[m * [33m8495155[m gitignore please work
+[1;36m|[m * [33m6aec1fe[m idk what to add but this is a commit so yeah
+[1;36m|[m *   [33mc9d690d[m Merge branch 'java-dev' of https://github.com/2024-25-Allen-ISD-Computer-Science/6th-period-isp-3d-snake into java-dev
+[1;36m|[m [33m|[m[34m\[m  
+[1;36m|[m [33m|[m * [33m8328af1[m fixed camera controller code a little and created Transformation.java file with getviewmatrix method
+[1;36m|[m * [34m|[m [33mff5d9ae[m W8. Giving Up 2: Electric Boogaloo Understood frame processing Gave up on understanding Matrix4f Began Object rendering :'D
+[1;36m|[m [34m|[m[34m/[m  
+[1;36m|[m * [33m175f4e1[m continued rendering, fixed syntax in Snake.java
+[1;36m|[m * [33md47fb32[m Added movement variables and statements
+[1;36m|[m * [33meba084c[m giving up and using yt tutorials
+[1;36m|[m * [33ma975c9c[m Added Snake.java, removed SDL files
+[1;36m|[m * [33m2b65df5[m Changed lib to LWJGL, render tests
+[1;36m|[m * [33mbc1c079[m Window, Initializing, trying OpenGL
+[1;36m|[m[1;36m/[m  
+* [33mc671157[m Created Java Project
+[34m|[m * [33m8ba614f[m[33m ([m[1;31morigin/application-dev[m[33m)[m set up solution & SDL update README add .gitignore
+[34m|[m[34m/[m  
+* [33mc0fe75b[m Updated Names README.md
+* [33m8ba7a71[m add online IDE url; add deadline
