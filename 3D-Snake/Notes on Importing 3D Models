@@ -1,0 +1,15 @@
+1. Make the 3D models (done)
+
+2. Export the model 
+  -The most common formats for exporting 3D models to game engines are FBX and OBJ. 
+  -The FBX format supports animations, whereas OBJ is used for static models.
+  -FBX format would be used for the snake in this case, while OBJ might be used for the environment/map.
+
+3. Importing the Model to a game engine. 
+    -Using Unreal Engine as an example: Go to the Content Browser and click on the Import button.
+    -Choose the FBX or OBJ File: Locate the exported file and click Open.
+    -Settings: When importing, ensure that the correct import settings are applied (such as skeletal mesh for animated models or static mesh for non-animated).
+
+4. Make sure the models are working
+
+5. Add Movement to the models that need to move.
