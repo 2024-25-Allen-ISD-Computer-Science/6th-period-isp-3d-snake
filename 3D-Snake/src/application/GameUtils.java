@@ -2,7 +2,7 @@ package application;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.nio.FloatBuffer;
@@ -45,4 +45,17 @@ public class GameUtils {
         return output;
     }
 
+    public static List<String> readAllLines(String fileName) {
+        List<String> list = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Class.forName(utils.getName().getResourceAsStream(fileName))))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }
