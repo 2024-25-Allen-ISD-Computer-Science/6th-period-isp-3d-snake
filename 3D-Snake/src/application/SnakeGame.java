@@ -26,11 +26,17 @@ public class SnakeGame implements ILogic {
     // private GLFWKeyCallback keyCallback;
 
     public SnakeGame() {
-        WINDOW = Launcher.getWindow();
-        RENDERER = new RenderController();
-        OBJECT_LOADER = new ObjectLoader();
-        // GLFWKeyCallback keyCallback = GLFW.glfwSetKeyCallback(WINDOW,
-        // Snake.keyCallback()); // fix later
+        window = Launcher.getWindow();
+        renderer = new RenderController();
+        Snake snake = new Snake();
+
+        loop();
+
+        GLFW.glfwFreeCallbacks(window);
+        GLFW.glfwDestroyWindow(window);
+
+        GLFW.glfwTerminate();
+        GLFW.glfwSetErrorCallback(null).free();
     }
 
     @Override
@@ -96,11 +102,33 @@ public class SnakeGame implements ILogic {
         } else {
             inputTick++;
         }
+
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'input'");
+        int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
+        int a_state = glfwGetKey(window, GLFW.GLFW_KEY_A);
+        int s_state = glfwGetKey(window, GLFW.GLFW_KEY_S);
+        int d_state = glfwGetKey(window, GLFW.GLFW_KEY_D);
+
+
+        if (w_state == GLFW.GLFW_PRESS) {
+            snake.turnUp();
+        } else if (a_state == GLFW.GLFW_PRESS) {
+            snake.turnLeft();
+        } else if (s_state == GLFW.GLFW_PRESS) {
+            snake.turnDown();
+        } else if (d_state == GLFW.GLFW_PRESS) {
+            snake.turnRight();
+        } else {
+            System.out.println("Miscellaneous input.");
+        }
     }
 
     /**
      * This method runs periodically.
      */
+        
+
     @Override
     public void update() {
         if (color > 1) {
