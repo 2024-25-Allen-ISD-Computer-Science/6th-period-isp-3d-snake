@@ -39,13 +39,29 @@ public class SnakeGame implements ILogic {
 
         // For testing purposes only
         float[] vertices = {
-                0f, 0.5f, 0f,
-                0f, 1f, 0f,
-                0.5f, 1f, 0f,
+                // 0.5f, 0.5f, 0f,
+                // 0.9f, 0.5f, 0f,
+                // 0.5f, 0.9f, 0f
 
-                // 0.9f, -0.9f, 0f,
-                // 0.5f, 0.9f, 0f,
-                // -0.5f, 0.5f, 0f
+                // 1f, 1f, 0f,
+                // -1f, -1f, 0f,
+                // 0f, -1f, 0f,
+
+                // -1f, 1f, 0f,
+                // -1f, -1f, 0f,
+                // 1f, -1f, 0f,
+
+                // 1f, 0f, 0f,
+                // 1f, -1f, 0f,
+                // 0.5f, -1f, 0f,
+
+                // Coordinates guaranteed to work
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f,
+                -0.5f, 0.5f, 0f
         };
         int[] indices = {
                 0, 0, 0,
@@ -98,7 +114,7 @@ public class SnakeGame implements ILogic {
     public void render() {
         if (WINDOW.getResize()) {
             GL11.glViewport(0, 0, WINDOW.getWidth(), WINDOW.getHeight());
-            WINDOW.setResize(true);
+            WINDOW.setResize(false);
         }
 
         WINDOW.setClearColor(color, color, color, 0f);

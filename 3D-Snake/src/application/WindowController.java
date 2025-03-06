@@ -24,6 +24,7 @@ public class WindowController {
     private String title;
     private int width;
     private int height;
+    private WindowDaemon daemon;
 
     //
     // Functions
@@ -105,19 +106,6 @@ public class WindowController {
             throw new Error("'Window used L Bozo! It was super effective!'\nThe window couldn't initialize.");
         }
 
-        // Area of memory that holds color data for the screen
-        GLFW.glfwSetFramebufferSizeCallback(window, (window, height, width) -> {
-            this.width = width;
-            this.height = height;
-            this.setResize(true);
-        });
-
-        // Handles how the window is resized
-        GLFW.glfwSetWindowSizeCallback(window, (window, height, width) -> {
-            this.height = height;
-            this.width = width;
-        });
-
         if (maximized || monitor == 0) {
             maximized = true;
             GLFW.glfwMaximizeWindow(window);
@@ -136,6 +124,10 @@ public class WindowController {
         GL11.glEnable(GL11.GL_STENCIL_TEST);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
+
+        daemon = new WindowDaemon(this);
+        daemon.setDaemon(true);
+        daemon.start();
     }
 
     /**
@@ -153,11 +145,29 @@ public class WindowController {
         }
     }
 
+    public void callbackMethods() {
+        // Handles how the window is resized
+        GLFW.glfwSetWindowSizeCallback(window, (window, width, height) -> {
+            this.width = width;
+            this.height = height;
+        });
+
+        // Area of memory that holds color data for the screen
+        GLFW.glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
+            this.width = width;
+            this.height = height;
+            // System.out.println("w: " + width + " h: " + height);
+            this.setResize(true);
+        });
+
+    }
+
     /**
      * What should happen when the window is terminated?
      */
     public void terminate() {
         isTerminated = true;
+        daemon.terminate();
         GLFW.glfwDestroyWindow(window);
     }
 
@@ -233,5 +243,27 @@ public class WindowController {
     public Matrix4f updateMatrix(Matrix4f matrix, int height, int width) {
         float aspectRatio = (float) width / height;
         return matrix.setPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
+    }
+}
+
+class WindowDaemon extends Thread {
+    WindowController window;
+    boolean shouldRun = true;
+
+    public WindowDaemon(WindowController window) {
+        super("goofy");
+
+        this.window = window;
+    }
+
+    @Override
+    public void run() {
+        while (shouldRun) {
+            window.callbackMethods();
+        }
+    }
+
+    public void terminate() {
+        shouldRun = false;
     }
 }
