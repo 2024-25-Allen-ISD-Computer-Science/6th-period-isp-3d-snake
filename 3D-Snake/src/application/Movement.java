@@ -37,3 +37,36 @@ class Snake {
         if (head.z > BOUNDARY) head.z = -BOUNDARY;
         else if (head.z < -BOUNDARY) head.z = BOUNDARY;
     }
+    
+        // Checks if two vectors are opposites (to prevent a 180-degree turn).
+        private boolean isOpposite(Vector3f v1, Vector3f v2) {
+            // This simple check assumes normalized directions.
+            return v1.x == -v2.x && v1.y == -v2.y && v1.z == -v2.z;
+        }
+    
+        // Rotates the snake's direction to the left around the global up axis (0,1,0).
+        public void turnLeft() {
+            direction = rotateVector(direction, new Vector3f(0, 1, 0), ROTATION_ANGLE);
+        }
+    
+        // Rotates the snake's direction to the right around the global up axis (0,1,0).
+        public void turnRight() {
+            direction = rotateVector(direction, new Vector3f(0, 1, 0), -ROTATION_ANGLE);
+        }
+    
+        // Rotates the snake's direction upward. Here, we rotate around the left vector,
+        // which is computed as the cross product of the current direction and the global up (0,1,0).
+        public void turnUp() {
+            Vector3f left = new Vector3f(direction.z, 0, -direction.x);
+            left.normalize();
+            direction = rotateVector(direction, left, ROTATION_ANGLE);
+        }
+    
+        // Rotates the snake's direction downward.
+        public void turnDown() {
+            Vector3f left = new Vector3f(direction.z, 0, -direction.x);
+            left.normalize();
+            direction = rotateVector(direction, left, -ROTATION_ANGLE);
+        }
+    
+    
