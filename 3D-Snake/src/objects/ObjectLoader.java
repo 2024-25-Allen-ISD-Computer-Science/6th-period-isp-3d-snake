@@ -1,14 +1,19 @@
 package objects;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.system.MemoryStack;
 
 import application.GameUtils;
 
@@ -21,7 +26,7 @@ public class ObjectLoader {
     //
 
     public Model loadOBJModel(String fileName) {
-        List<String> lines = Utils.readAllLines(fileName);
+        List<String> lines = GameUtils.readAllLines(fileName);
 
         List<Vector3f> vertices = new ArrayList<>();
         List<Vector3f> normals = new ArrayList<>();
@@ -33,26 +38,23 @@ public class ObjectLoader {
             switch (tokens[0]) {
                 case "v":
                     Vector3f verticesVec = new Vector3f(
-                        Float.parseFloat(tokens[1]),
-                        Float.parseFloat(tokens[2]),
-                        Float.parseFloat(tokens[3])
-                    );
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]),
+                            Float.parseFloat(tokens[3]));
                     vertices.add(verticesVec);
                     break;
                 case "vt":
                     Vector2f textureVec = new Vector2f(
-                        Float.parseFloat(tokens[1]),
-                        Float.parseFloat(tokens[2])
-                    );
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]));
 
                     textures.add(textureVec);
                     break;
                 case "vn":
                     Vector3f normalsVec = new Vector3f(
-                        Float.parseFloat(tokens[1]),
-                        Float.parseFloat(tokens[2]),
-                        Float.parseFloat(tokens[3])
-                    );
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]),
+                            Float.parseFloat(tokens[3]));
                     vertices.add(normalsVec);
                     break;
                 case "f":
@@ -77,7 +79,7 @@ public class ObjectLoader {
         }
 
         float[] textCoordArr = new float[vertices.size() + 2];
-        float[] normalArr = new float[vertices.size() + 3]
+        float[] normalArr = new float[vertices.size() + 3];
     }
 
     private static void processFace(String token, List<Vector3i> faces) {
@@ -98,12 +100,21 @@ public class ObjectLoader {
         faces.add(facesVec);
     }
 
-    public Model loadModel(float[] vertices, int[] indices) {
+    public Model loadModel(float[] vertices, float[] textureCoords, int[] indices) {
         int id = createVAO();
         storeVertexBuffer(0, 3, vertices);
-        // storeIndicesBuffer(indices);
+        storeVertexBuffer(1, 2, textureCoords);
+        storeIndicesBuffer(indices);
         unbind();
-        return new Model(id, vertices.length / 3);
+        return new Model(id, indices.length)
+    }
+
+    public int loadTexture(String fileName) throws Exception {
+        int width, height;
+        ByteBuffer buffer;
+
+        MemoryStack stack = MemoryStack.stackPush();
+
     }
 
     private void unbind() {
@@ -121,7 +132,7 @@ public class ObjectLoader {
     }
 
     //
-    //
+    // GPU methods
     //
     private int createVAO() {
         int id = GL30.glGenVertexArrays();
@@ -146,9 +157,6 @@ public class ObjectLoader {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
-    //
-    //
-    //
     /**
      * Used to store the memory needed to render a 3D model. Basically stores the
      * points for sides.

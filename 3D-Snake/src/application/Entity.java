@@ -2,6 +2,8 @@ package application;
 
 import org.joml.Vector3f;
 
+import objects.Model;
+
 public class Entity {
 
     private Model model;

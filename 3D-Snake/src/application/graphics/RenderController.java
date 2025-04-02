@@ -1,9 +1,10 @@
-package application;
+package application.graphics;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import application.GameUtils;
 import objects.Model;
 
 public class RenderController {
@@ -20,10 +21,10 @@ public class RenderController {
      * What should be run on start-up?
      */
     public void initialize() throws Exception {
-        // shader = new ShaderController();
-        // shader.createVertexShader(GameUtils.loadResource("/shaders/vertex.vs"));
-        // shader.createFragmentShader(GameUtils.loadResource("/shaders/fragment.fs"));
-        // shader.link();
+        shader = new ShaderController();
+        shader.createVertexShader(GameUtils.loadResource("/shaders/vertex.vs"));
+        shader.createFragmentShader(GameUtils.loadResource("/shaders/fragment.fs"));
+        shader.link();
     }
 
     /**
@@ -33,7 +34,7 @@ public class RenderController {
         // Removes all data from the screen
         clear();
 
-        // shader.bind();
+        shader.bind();
 
         GL30.glBindVertexArray(model.getID());
         GL20.glEnableVertexAttribArray(0);
@@ -41,7 +42,7 @@ public class RenderController {
         GL20.glDisableVertexAttribArray(0);
         GL30.glBindVertexArray(0);
 
-        // shader.unbind();
+        shader.unbind();
     }
 
     /**

@@ -40,7 +40,6 @@ public class GameEngineController {
         WINDOW.initialize();
         logic.initialize();
 
-        isRunning = true;
         execute();
     }
 
@@ -132,7 +131,7 @@ public class GameEngineController {
     //
     // Get & Set Methods
     //
-    public WindowController getWINDOW() {
+    public WindowController getWindow() {
         return WINDOW;
     }
 
