@@ -77,7 +77,32 @@ public class ObjectLoader {
         }
 
         float[] textCoordArr = new float[vertices.size() + 2];
-        float[] normalArr = new float[vertices.size() + 3]
+        float[] normalArr = new float[vertices.size() + 3];
+
+        for (Vector3i face : faces) {
+            processVertex(face.x, face.y, face.z, textures, normals, indices, textCoordArr, normalArr);
+        }
+
+        int [] indicesArr = indices.stream().mapToInt((Integer v) -> v).toArray();
+
+        return loadModel(verticesArr, textCoordArr, indicesArr);
+    }
+
+    private static void processVertex(int pos, int textCoord, int normal, List<Vector2f> texCoordList, List<Vector3f> normalList, List<Integer> indicesList, float[] texCoordArr, float[] normalArr) {
+        indicesList.add(pos);
+
+        if (texCoord >= 0) {
+            Vector2f texCoordVec = texCoordList.get(textCoord);
+            texCoordArr[pos * 2] = texCoordVec.x;
+            texCoordArr[pos * 2 + 1] = 1 - texCoordVec.y;
+        }
+
+        if (normal >= 0) {
+            Vector3f normalVec = normalList.get(normal);
+            normalArr[pos * 3] = normalVec.x;
+            normalArr[pos * 3 + 1] = normalVec.y;
+            normalArr[pos * 3 + 2] = normalVec.z;
+        }
     }
 
     private static void processFace(String token, List<Vector3i> faces) {
