@@ -1,4 +1,4 @@
-package application;
+package application.graphics;
 
 import org.lwjgl.opengl.GL20;
 

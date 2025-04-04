@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 
+import application.graphics.RenderController;
 import objects.Model;
 import objects.ObjectLoader;
 
@@ -14,6 +15,7 @@ public class SnakeGame implements ILogic {
     private final RenderController RENDERER;
     private final WindowController WINDOW;
     private final ObjectLoader OBJECT_LOADER;
+    private final Snake snake;
 
     private Model model;
 
@@ -26,17 +28,10 @@ public class SnakeGame implements ILogic {
     // private GLFWKeyCallback keyCallback;
 
     public SnakeGame() {
-        window = Launcher.getWindow();
-        renderer = new RenderController();
-        Snake snake = new Snake();
-
-        loop();
-
-        GLFW.glfwFreeCallbacks(window);
-        GLFW.glfwDestroyWindow(window);
-
-        GLFW.glfwTerminate();
-        GLFW.glfwSetErrorCallback(null).free();
+        WINDOW = Launcher.getWindow();
+        RENDERER = new RenderController();
+        OBJECT_LOADER = new ObjectLoader();
+        snake = new Snake();
     }
 
     @Override
@@ -45,22 +40,6 @@ public class SnakeGame implements ILogic {
 
         // For testing purposes only
         float[] vertices = {
-                // 0.5f, 0.5f, 0f,
-                // 0.9f, 0.5f, 0f,
-                // 0.5f, 0.9f, 0f
-
-                // 1f, 1f, 0f,
-                // -1f, -1f, 0f,
-                // 0f, -1f, 0f,
-
-                // -1f, 1f, 0f,
-                // -1f, -1f, 0f,
-                // 1f, -1f, 0f,
-
-                // 1f, 0f, 0f,
-                // 1f, -1f, 0f,
-                // 0.5f, -1f, 0f,
-
                 // Coordinates guaranteed to work
                 -0.5f, 0.5f, 0f,
                 -0.5f, -0.5f, 0f,
@@ -69,10 +48,14 @@ public class SnakeGame implements ILogic {
                 0.5f, 0.5f, 0f,
                 -0.5f, 0.5f, 0f
         };
+        // int[] indices = {
+        // 0, 0, 0,
+        // 0, 0, 0,
+        // 1, 1, 1
+        // };
         int[] indices = {
-                0, 0, 0,
-                0, 0, 0,
-                1, 1, 1
+                0, 1, 3,
+                3, 1, 2
         };
 
         model = OBJECT_LOADER.loadModel(vertices, indices);
@@ -103,14 +86,17 @@ public class SnakeGame implements ILogic {
             inputTick++;
         }
 
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'input'");
-        int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
-        int a_state = glfwGetKey(window, GLFW.GLFW_KEY_A);
-        int s_state = glfwGetKey(window, GLFW.GLFW_KEY_S);
-        int d_state = glfwGetKey(window, GLFW.GLFW_KEY_D);
+        // switch the below to boolean, and use the WINDOW.isKeyPressed() method
+        // int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
+        // int a_state = glfwGetKey(window, GLFW.GLFW_KEY_A);
+        // int s_state = glfwGetKey(window, GLFW.GLFW_KEY_S);
+        // int d_state = glfwGetKey(window, GLFW.GLFW_KEY_D);
+        int w_state = 0;
+        int a_state = 0;
+        int s_state = 0;
+        int d_state = 0;
 
-
+        // update conditionals and add a snake variable
         if (w_state == GLFW.GLFW_PRESS) {
             snake.turnUp();
         } else if (a_state == GLFW.GLFW_PRESS) {
@@ -127,8 +113,6 @@ public class SnakeGame implements ILogic {
     /**
      * This method runs periodically.
      */
-        
-
     @Override
     public void update() {
         if (color > 1) {
