@@ -80,7 +80,6 @@ public class ObjectLoader {
 
         float[] textCoordArr = new float[vertices.size() + 2];
         float[] normalArr = new float[vertices.size() + 3];
-<<<<<<< HEAD
 
         for (Vector3i face : faces) {
             processVertex(face.x, face.y, face.z, textures, normals, indices, textCoordArr, normalArr);
@@ -106,8 +105,6 @@ public class ObjectLoader {
             normalArr[pos * 3 + 1] = normalVec.y;
             normalArr[pos * 3 + 2] = normalVec.z;
         }
-=======
->>>>>>> 09251d18c14d6c0a6c6a13cf077cd786bef26085
     }
 
     private static void processFace(String token, List<Vector3i> faces) {
