@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import application.graphics.RenderController;
 import objects.Model;
 import objects.ObjectLoader;
+import objects.Texture;
 
 public class SnakeGame implements ILogic {
     //
@@ -58,7 +59,15 @@ public class SnakeGame implements ILogic {
                 3, 1, 2
         };
 
-        model = OBJECT_LOADER.loadModel(vertices, indices);
+        float[] textureCoords = {
+                0, 0,
+                0, 1,
+                1, 1,
+                1, 0
+        };
+
+        model = OBJECT_LOADER.loadModel(vertices, textureCoords, indices);
+        model.setTexture(new Texture(OBJECT_LOADER.loadTexture("textures/grassblock.png")));
     }
 
     /**

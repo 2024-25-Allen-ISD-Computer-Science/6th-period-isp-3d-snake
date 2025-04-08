@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
 import application.GameUtils;
@@ -20,6 +21,7 @@ import application.GameUtils;
 public class ObjectLoader {
     private List<Integer> vaos = new ArrayList<>(); // vertex array object, coords of an obj
     private List<Integer> vbos = new ArrayList<>(); // vertex buffer object, texture coords of an obj
+    private List<Integer> textures = new ArrayList<>();
 
     //
     // ObjectLoader Basic Methods
@@ -106,7 +108,7 @@ public class ObjectLoader {
         storeVertexBuffer(1, 2, textureCoords);
         storeIndicesBuffer(indices);
         unbind();
-        return new Model(id, indices.length)
+        return new Model(id, indices.length);
     }
 
     public int loadTexture(String fileName) throws Exception {
@@ -114,7 +116,28 @@ public class ObjectLoader {
         ByteBuffer buffer;
 
         MemoryStack stack = MemoryStack.stackPush();
+        IntBuffer w = stack.mallocInt(1);
+        IntBuffer h = stack.mallocInt(1);
+        IntBuffer c = stack.mallocInt(1);
 
+        buffer = STBImage.stbi_load(fileName, w, h, c, 4);
+        if (buffer == null) {
+            throw new Exception("Image file " + fileName + STBImage.stbi_failure_reason());
+        }
+
+        width = w.get();
+        height = h.get();
+
+        int id = GL11.glGenTextures();
+        textures.add(id);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
+                buffer);
+        GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+        STBImage.stbi_image_free(buffer);
+
+        return id;
     }
 
     private void unbind() {
@@ -122,12 +145,19 @@ public class ObjectLoader {
     }
 
     public void terminate() {
+        /* Vertex Array Objects */
         for (int vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }
 
+        /* Vertex Buffer Objects */
         for (int vbo : vbos) {
             GL30.glDeleteBuffers(vbo);
+        }
+
+        /* Textures */
+        for (int texture : textures) {
+            GL30.glDeleteTextures(texture);
         }
     }
 

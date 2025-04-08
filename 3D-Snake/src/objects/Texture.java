@@ -1,4 +1,4 @@
-package entity;
+package objects;
 
 public class Texture {
     private final int id;

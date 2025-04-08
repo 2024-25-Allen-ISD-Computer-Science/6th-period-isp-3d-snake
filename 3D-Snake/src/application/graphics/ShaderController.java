@@ -1,11 +1,18 @@
 package application.graphics;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.system.MemoryStack;
 
 public class ShaderController {
 
     private final int PROGRAM_ID;
     private int vertexShaderID, fragmentShaderID;
+
+    private final Map<String, Integer> uniforms;
 
     public ShaderController() throws Exception {
         PROGRAM_ID = GL20.glCreateProgram();
@@ -13,6 +20,25 @@ public class ShaderController {
             // the program didn't initialize
             throw new Exception("The program couldn't be created");
         }
+
+        uniforms = new HashMap<>();
+    }
+
+    public void createUniform(String uniformName) throws Exception {
+        int uniformLocation = GL20.glGetUniformLocation(PROGRAM_ID, uniformName);
+        if (uniformLocation < 0) {
+            throw new Exception("Could not find uniform " + uniformName);
+        }
+        uniforms.put(uniformName, uniformLocation);
+    }
+
+    public void setUniform(String uniformName, Matrix4f value) {
+        MemoryStack stack = MemoryStack.stackPush();
+        GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));
+    }
+
+    public void setUniform(String uniformName, int value) {
+        GL20.glUniform1i(uniforms.get(uniformName), value);
     }
 
     /**
@@ -50,19 +76,20 @@ public class ShaderController {
         int shaderID = GL20.glCreateShader(shaderType);
         if (shaderID == 0) {
             // If the shader failed to be created
-            throw new Exception("yappity yap");
+            throw new Exception("Error creating shader.  Type: " + shaderType);
         }
 
         GL20.glShaderSource(shaderID, shaderCode);
         GL20.glCompileShader(shaderID);
 
         // GL20.glGetShaderi() gets the information of the shader
-        // if the shader isn't complete then throw an error
         if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == 0) {
-            throw new Exception();
+            // if the shader isn't complete then throw an error
+            throw new Exception("Error compiling shader.  Type: " + shaderType
+                    + "\nInfo: " + GL20.glGetShaderInfoLog(shaderID, 1024));
         }
 
-        // links the shader to the program to render it?
+        /* Link the shader to the program to render it */
         GL20.glAttachShader(PROGRAM_ID, shaderID);
 
         return shaderID;
