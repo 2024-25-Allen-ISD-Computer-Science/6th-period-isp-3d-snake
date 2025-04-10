@@ -1,9 +1,11 @@
-package application.graphics;
+package application.controllers;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.system.MemoryStack;
 
@@ -33,8 +35,29 @@ public class ShaderController {
     }
 
     public void setUniform(String uniformName, Matrix4f value) {
-        MemoryStack stack = MemoryStack.stackPush();
-        GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            GL20.glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));
+        }
+    }
+
+    public void setUniform(String uniformName, Vector4f value) {
+        GL20.glUniform4f(uniforms.get(uniformName), value.x, value.y, value.z, value.w);
+    }
+
+    public void setUniform(String uniformName, Vector3f value) {
+        GL20.glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
+    }
+
+    public void setUniform(String uniformName, boolean value) {
+        // float res = 0;
+        // if (value) {
+        // res = 1;
+        // }
+        GL20.glUniform1f(uniforms.get(uniformName), value ? 1 : 0);
+    }
+
+    public void setUniform(String uniformName, float value) {
+        GL20.glUniform1f(uniforms.get(uniformName), value);
     }
 
     public void setUniform(String uniformName, int value) {

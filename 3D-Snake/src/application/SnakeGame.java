@@ -1,10 +1,12 @@
 package application;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 
-import application.graphics.RenderController;
+import application.controllers.RenderController;
+import application.controllers.WindowController;
 import objects.Model;
 import objects.ObjectLoader;
 import objects.Texture;
@@ -19,6 +21,7 @@ public class SnakeGame implements ILogic {
     private final Snake snake;
 
     private Model model;
+    private Entity entity;
 
     //
     // Variables
@@ -68,6 +71,7 @@ public class SnakeGame implements ILogic {
 
         model = OBJECT_LOADER.loadModel(vertices, textureCoords, indices);
         model.setTexture(new Texture(OBJECT_LOADER.loadTexture("textures/grassblock.png")));
+        entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
     }
 
     /**
@@ -77,23 +81,14 @@ public class SnakeGame implements ILogic {
     @Override
     public void input() {
         // Render testing purposes only
-        if (inputTick > 20000) {
-            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_UP)) {
-                color += .0005;
-            }
-            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-                color -= .0005;
-            }
-            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_0)) {
-                color = 0;
-            }
-            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_1)) {
-                color = 1;
-            }
-            inputTick = 0;
-        } else {
-            inputTick++;
+        // if (inputTick > 20000) {
+        if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+            entity.getPos().x -= 0.1f;
         }
+        // inputTick = 0;
+        // } else {
+        // inputTick++;
+        // }
 
         // switch the below to boolean, and use the WINDOW.isKeyPressed() method
         // int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
@@ -124,10 +119,8 @@ public class SnakeGame implements ILogic {
      */
     @Override
     public void update() {
-        if (color > 1) {
-            color = 1;
-        } else if (color < 0) {
-            color = 0;
+        if (entity.getPos().x < -1.5f) {
+            entity.setPos(1.5f, 0, 0);
         }
     }
 
@@ -139,7 +132,7 @@ public class SnakeGame implements ILogic {
         }
 
         WINDOW.setClearColor(color, color, color, 0f);
-        RENDERER.render(model);
+        RENDERER.render(entity);
         // RENDERER.clear(); // makes the renderer not render models
     }
 

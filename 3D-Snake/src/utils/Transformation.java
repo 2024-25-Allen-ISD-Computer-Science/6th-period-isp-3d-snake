@@ -1,16 +1,24 @@
-package application;
+package utils;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import application.Entity;
+import application.controllers.CameraController;
 
 public class Transformation {
     public static Matrix4f createTransformationMatrix(Entity entity) {
+        /* Initialize Variables */
         Matrix4f matrix = new Matrix4f();
-        matrix.identity().translate(entity.getPos()).rotateX((float) Math.toRadians(entity.getRotation().x))
-                .rotateY((float) Math.toRadians(entity.getRotation().y))
-                .rotateZ((float) Math.toRadians(entity.getRotation().z)).scale(entity.getScale());
 
+        /* Transformation */
+        matrix.identity(); // create new matrix
+        matrix.translate(entity.getPos()); // moves the matrix
+        matrix.rotateX((float) Math.toRadians(entity.getRotation().x)); // rotates (x-axis)
+        matrix.rotateY((float) Math.toRadians(entity.getRotation().y)); // rotates (y-axis)
+        matrix.rotateZ((float) Math.toRadians(entity.getRotation().z)); // rotates yaw (z-axis)
+        matrix.scale(entity.getScale()); // scales the model
+
+        /* Return */
         return matrix;
     }
 

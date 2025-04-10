@@ -2,6 +2,10 @@ package application;
 
 import org.lwjgl.glfw.GLFW;
 
+import application.controllers.GameEngineController;
+import application.controllers.WindowController;
+import utils.GameUtils;
+
 public class Launcher {
     //
     // Game Components
@@ -19,9 +23,7 @@ public class Launcher {
         try {
             engine.initialize();
         } catch (Error e) {
-            System.err.println(
-                    "'The snake who doesn't show up is the snake that's a bozo.'\n"
-                            + "The game couldn't initialize.");
+            e.printStackTrace();
         }
     }
 

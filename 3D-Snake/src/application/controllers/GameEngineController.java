@@ -1,7 +1,10 @@
-package application;
+package application.controllers;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+
+import application.ILogic;
+import application.Launcher;
 
 public class GameEngineController {
 

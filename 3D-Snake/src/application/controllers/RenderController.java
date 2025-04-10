@@ -1,12 +1,13 @@
-package application.graphics;
+package application.controllers;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import application.GameUtils;
-import objects.Model;
+import application.Entity;
+import utils.GameUtils;
+import utils.Transformation;
 
 public class RenderController {
     //
@@ -28,25 +29,28 @@ public class RenderController {
         shader.createFragmentShader(GameUtils.loadResource("/shaders/fragment.fs"));
         shader.link();
         shader.createUniform("textureSampler");
+
+        shader.createUniform("transformationMatrix");
     }
 
     /**
      * Method to render something
      */
-    public void render(Model model) {
+    public void render(Entity entity) {
         /* Removes all data from the screen */
         clear();
 
         shader.bind();
         shader.setUniform("textureSampler", 0);
+        shader.setUniform("transformationMatrix", Transformation.createTransformationMatrix(entity));
 
-        GL30.glBindVertexArray(model.getID());
+        GL30.glBindVertexArray(entity.getModel().getID());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL13.glActiveTexture(GL13.GL_TEXTURE0); // num needs to match the value num
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, entity.getModel().getTexture().getID());
 
-        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+        GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);

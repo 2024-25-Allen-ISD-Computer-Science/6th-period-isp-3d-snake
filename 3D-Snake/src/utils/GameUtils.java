@@ -1,4 +1,4 @@
-package application;
+package utils;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -57,7 +57,7 @@ public class GameUtils {
         List<String> list = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(Class.forName(GameUtils.getName().getResourceAsStream(fileName))));
+                    new InputStreamReader(Class.forName(GameUtils.class.getName()).getResourceAsStream(fileName)));
             String line;
             while ((line = br.readLine()) != null) {
                 list.add(line);

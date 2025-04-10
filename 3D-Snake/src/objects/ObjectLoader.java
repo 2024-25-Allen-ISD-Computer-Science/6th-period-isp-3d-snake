@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
-import application.GameUtils;
+import utils.GameUtils;
 
 public class ObjectLoader {
     private List<Integer> vaos = new ArrayList<>(); // vertex array object, coords of an obj
@@ -115,24 +115,29 @@ public class ObjectLoader {
         int width, height;
         ByteBuffer buffer;
 
-        MemoryStack stack = MemoryStack.stackPush();
-        IntBuffer w = stack.mallocInt(1);
-        IntBuffer h = stack.mallocInt(1);
-        IntBuffer c = stack.mallocInt(1);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            // "try" block needed to prevent OutOfMemory Errors
 
-        buffer = STBImage.stbi_load(fileName, w, h, c, 4);
-        if (buffer == null) {
-            throw new Exception("Image file " + fileName + STBImage.stbi_failure_reason());
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
+            IntBuffer c = stack.mallocInt(1);
+
+            buffer = STBImage.stbi_load(fileName, w, h, c, 4);
+            if (buffer == null) {
+                throw new Exception("Image file " + fileName + STBImage.stbi_failure_reason());
+            }
+
+            width = w.get();
+            height = h.get();
+
         }
-
-        width = w.get();
-        height = h.get();
 
         int id = GL11.glGenTextures();
         textures.add(id);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, id);
         GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA,
+                GL11.GL_UNSIGNED_BYTE,
                 buffer);
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
         STBImage.stbi_image_free(buffer);

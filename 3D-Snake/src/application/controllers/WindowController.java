@@ -1,4 +1,4 @@
-package application;
+package application.controllers;
 
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
