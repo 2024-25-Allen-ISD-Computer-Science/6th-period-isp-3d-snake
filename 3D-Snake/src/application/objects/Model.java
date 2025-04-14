@@ -1,4 +1,4 @@
-package objects;
+package application.objects;
 
 public class Model {
     private int id;

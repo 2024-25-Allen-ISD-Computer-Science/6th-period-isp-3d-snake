@@ -1,4 +1,4 @@
-package application;
+package application.entities;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -17,11 +17,9 @@ public class Snake {
     // Movement
     //
 
-    
+    // public void keyCallback(long window, int key, int scancode, int action, int
+    // mods) {
 
-    // public void keyCallback(long window, int key, int scancode, int action, int mods) {
-
-        
     // }
 
     public void turnUp() {
@@ -60,17 +58,16 @@ public class Snake {
         gameOver = false;
     }
 
-    
-
     public void update() {
-        if (gameOver) return;
+        if (gameOver)
+            return;
 
         Vector3i newHead = new Vector3i(snake.getFirst()).add(direction);
 
         // Check wall collision
         if (newHead.x < 0 || newHead.x >= worldSize ||
-            newHead.y < 0 || newHead.y >= worldSize ||
-            newHead.z < 0 || newHead.z >= worldSize) {
+                newHead.y < 0 || newHead.y >= worldSize ||
+                newHead.z < 0 || newHead.z >= worldSize) {
             gameOver = true;
             return;
         }
@@ -95,8 +92,8 @@ public class Snake {
     private void spawnFood() {
         do {
             food = new Vector3i(random.nextInt(worldSize),
-                                random.nextInt(worldSize),
-                                random.nextInt(worldSize));
+                    random.nextInt(worldSize),
+                    random.nextInt(worldSize));
         } while (snake.contains(food));
     }
 

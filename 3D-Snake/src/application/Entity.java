@@ -2,7 +2,7 @@ package application;
 
 import org.joml.Vector3f;
 
-import objects.Model;
+import application.objects.Model;
 
 public class Entity {
 

@@ -1,4 +1,4 @@
-package objects;
+package application.objects;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -71,31 +71,33 @@ public class ObjectLoader {
 
         // nw - 8:03 / 12:27
         List<Integer> indices = new ArrayList<>();
-        float[] verticesArr = new float[vertices.size() + 3];
+        // float[] verticesArr = new float[vertices.size() + 3];
+        float[] verticesArr = new float[vertices.size() * 3];
         int i = 0;
         for (Vector3f pos : vertices) {
-            verticesArr[i + 3] = pos.x;
-            verticesArr[i + 3 + 1] = pos.y;
-            verticesArr[i + 3 + 2] = pos.z;
+            verticesArr[i * 3] = pos.x;
+            verticesArr[i * 3 + 1] = pos.y;
+            verticesArr[i * 3 + 2] = pos.z;
             i++;
         }
 
-        float[] textCoordArr = new float[vertices.size() + 2];
-        float[] normalArr = new float[vertices.size() + 3];
+        float[] textCoordArr = new float[vertices.size() * 2];
+        float[] normalArr = new float[vertices.size() * 3];
 
         for (Vector3i face : faces) {
             processVertex(face.x, face.y, face.z, textures, normals, indices, textCoordArr, normalArr);
         }
 
-        int [] indicesArr = indices.stream().mapToInt((Integer v) -> v).toArray();
+        int[] indicesArr = indices.stream().mapToInt((Integer v) -> v).toArray();
 
         return loadModel(verticesArr, textCoordArr, indicesArr);
     }
 
-    private static void processVertex(int pos, int textCoord, int normal, List<Vector2f> texCoordList, List<Vector3f> normalList, List<Integer> indicesList, float[] texCoordArr, float[] normalArr) {
+    private static void processVertex(int pos, int textCoord, int normal, List<Vector2f> texCoordList,
+            List<Vector3f> normalList, List<Integer> indicesList, float[] texCoordArr, float[] normalArr) {
         indicesList.add(pos);
 
-        if (texCoord >= 0) {
+        if (textCoord >= 0) {
             Vector2f texCoordVec = texCoordList.get(textCoord);
             texCoordArr[pos * 2] = texCoordVec.x;
             texCoordArr[pos * 2 + 1] = 1 - texCoordVec.y;
@@ -149,12 +151,11 @@ public class ObjectLoader {
 
             buffer = STBImage.stbi_load(fileName, w, h, c, 4);
             if (buffer == null) {
-                throw new Exception("Image file " + fileName + STBImage.stbi_failure_reason());
+                throw new Exception("Image file " + fileName + " " + STBImage.stbi_failure_reason());
             }
 
             width = w.get();
             height = h.get();
-
         }
 
         int id = GL11.glGenTextures();

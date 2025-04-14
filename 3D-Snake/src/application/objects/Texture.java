@@ -1,4 +1,4 @@
-package objects;
+package application.objects;
 
 public class Texture {
     private final int id;

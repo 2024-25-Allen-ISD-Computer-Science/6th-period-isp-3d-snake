@@ -1,15 +1,17 @@
 package application;
 
+import java.util.ArrayList;
+
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL11;
 
 import application.controllers.RenderController;
 import application.controllers.WindowController;
-import objects.Model;
-import objects.ObjectLoader;
-import objects.Texture;
+import application.entities.Snake;
+import application.objects.Model;
+import application.objects.ObjectLoader;
+import application.objects.Texture;
 
 public class SnakeGame implements ILogic {
     //
@@ -20,14 +22,17 @@ public class SnakeGame implements ILogic {
     private final ObjectLoader OBJECT_LOADER;
     private final Snake snake;
 
-    private Model model;
-    private Entity entity;
+    /* Entities and Models */
+    private ArrayList<Entity> entities;
+    private Entity teapot;
+    // private Model model;
+    // private Entity entity;
 
     //
     // Variables
     //
     float color = 0;
-    int inputTick = 0;
+    private int inputTick = 0;
 
     // private GLFWKeyCallback keyCallback;
 
@@ -36,42 +41,66 @@ public class SnakeGame implements ILogic {
         RENDERER = new RenderController();
         OBJECT_LOADER = new ObjectLoader();
         snake = new Snake();
+
+        entities = new ArrayList<Entity>();
+    }
+
+    private void createEntities() {
+        /* Teapot */
+        Model teapotModel = OBJECT_LOADER.loadOBJModel("../resources/models/teapot.obj");
+        Texture teapotTexture;
+        try {
+            teapotTexture = new Texture(OBJECT_LOADER.loadTexture("./src/resources/textures/brick.png"));
+            teapotModel.setTexture(teapotTexture);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        teapot = new Entity(teapotModel, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.2f);
+
+        entities.add(teapot);
     }
 
     @Override
     public void initialize() throws Exception {
         RENDERER.initialize();
+        createEntities();
+
+        /* Initialize Entities */
+        for (Entity i : entities) {
+
+        }
 
         // For testing purposes only
-        float[] vertices = {
-                // Coordinates guaranteed to work
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
-        };
-        // int[] indices = {
-        // 0, 0, 0,
-        // 0, 0, 0,
-        // 1, 1, 1
+        // float[] vertices = {
+        // // Coordinates guaranteed to work
+        // -0.5f, 0.5f, 0f,
+        // -0.5f, -0.5f, 0f,
+        // 0.5f, -0.5f, 0f,
+        // 0.5f, -0.5f, 0f,
+        // 0.5f, 0.5f, 0f,
+        // -0.5f, 0.5f, 0f
         // };
-        int[] indices = {
-                0, 1, 3,
-                3, 1, 2
-        };
+        // // int[] indices = {
+        // // 0, 0, 0,
+        // // 0, 0, 0,
+        // // 1, 1, 1
+        // // };
+        // int[] indices = {
+        // 0, 1, 3,
+        // 3, 1, 2
+        // };
 
-        float[] textureCoords = {
-                0, 0,
-                0, 1,
-                1, 1,
-                1, 0
-        };
+        // float[] textureCoords = {
+        // 0, 0,
+        // 0, 1,
+        // 1, 1,
+        // 1, 0
+        // };
 
-        model = OBJECT_LOADER.loadModel(vertices, textureCoords, indices);
-        model.setTexture(new Texture(OBJECT_LOADER.loadTexture("textures/grassblock.png")));
-        entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
+        // model = OBJECT_LOADER.loadModel(vertices, textureCoords, indices);
+        // model.setTexture(new
+        // Texture(OBJECT_LOADER.loadTexture("textures/grassblock.png")));
+        // entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
     }
 
     /**
@@ -81,14 +110,35 @@ public class SnakeGame implements ILogic {
     @Override
     public void input() {
         // Render testing purposes only
-        // if (inputTick > 20000) {
-        if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-            entity.getPos().x -= 0.1f;
+        if (inputTick > Constants.InputConstants.INPUT_TICKS) {
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
+                teapot.getPos().x -= 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
+                teapot.getPos().x += 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_UP)) {
+                teapot.getPos().y += 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
+                teapot.getPos().y -= 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_Q)) {
+                teapot.getPos().z += 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_E)) {
+                teapot.getPos().z -= 0.1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_A)) {
+                teapot.getRotation().y += 1f;
+            }
+            if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_D)) {
+                teapot.getRotation().y -= 1f;
+            }
+            inputTick = 0;
+        } else {
+            inputTick++;
         }
-        // inputTick = 0;
-        // } else {
-        // inputTick++;
-        // }
 
         // switch the below to boolean, and use the WINDOW.isKeyPressed() method
         // int w_state = glfwGetKey(window, GLFW.GLFW_KEY_W);
@@ -119,9 +169,9 @@ public class SnakeGame implements ILogic {
      */
     @Override
     public void update() {
-        if (entity.getPos().x < -1.5f) {
-            entity.setPos(1.5f, 0, 0);
-        }
+        // if (entity.getPos().x < -1.5f) {
+        // entity.setPos(1.5f, 0, 0);
+        // }
     }
 
     @Override
@@ -132,7 +182,12 @@ public class SnakeGame implements ILogic {
         }
 
         WINDOW.setClearColor(color, color, color, 0f);
-        RENDERER.render(entity);
+
+        /* Rendering entities */
+        for (Entity i : entities) {
+            RENDERER.render(i);
+        }
+        // RENDERER.render(entity);
         // RENDERER.clear(); // makes the renderer not render models
     }
 
