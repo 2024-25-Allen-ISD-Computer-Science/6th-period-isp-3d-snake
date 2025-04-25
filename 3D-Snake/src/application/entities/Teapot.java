@@ -1,13 +1,9 @@
 package application.entities;
 
-import org.joml.Vector3f;
+import application.objects.ObjectLoader;
 
-import application.Entity;
-import application.objects.Model;
-
-public class Teapot extends Entity {
-    public Teapot(Model model, Vector3f pos, Vector3f rotation, float scale) {
-        super(model, pos, rotation, scale);
+public class Teapot extends EntityAbstract {
+    public Teapot(ObjectLoader objLoader) {
+        super(objLoader, "../resources/models/teapot.obj", "./src/resources/textures/brick.png");
     }
-
 }

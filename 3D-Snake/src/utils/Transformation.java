@@ -2,11 +2,12 @@ package utils;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import application.Entity;
+
 import application.controllers.CameraController;
+import application.entities.EntityAbstract;
 
 public class Transformation {
-    public static Matrix4f createTransformationMatrix(Entity entity) {
+    public static Matrix4f createTransformationMatrix(EntityAbstract entity) {
         /* Initialize Variables */
         Matrix4f matrix = new Matrix4f();
 

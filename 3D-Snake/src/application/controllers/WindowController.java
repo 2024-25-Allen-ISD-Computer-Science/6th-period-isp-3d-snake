@@ -17,46 +17,34 @@ public class WindowController {
     private static final float Z_FAR = 0.01f;
     private static final float Z_NEAR = 1000f;
 
-    //
-    // Display
-    //
+    /* Display */
     private final Matrix4f projectMatrix;
     private String title;
     private int width;
     private int height;
     private WindowDaemon daemon;
 
-    //
-    // Functions
-    //
+    /* Functions */
     private boolean resize;
     private boolean isTerminated;
     private boolean maximized;
 
-    //
-    // Settings
-    //
+    /* Settings */
     private long monitor;
     private boolean vSync;
 
     public WindowController(String title, int height, int width, boolean vSync, long monitor) {
-        //
-        // Display
-        //
+        /* Display */
         this.title = title;
         this.height = height;
         this.width = width;
         projectMatrix = new Matrix4f();
 
-        //
-        // Functions
-        //
+        /* Functions */
         isTerminated = false;
         maximized = false;
 
-        //
-        // Settings
-        //
+        /* Settings */
         this.vSync = vSync;
         // 0 for windowed, number for full screen on a certain monitor
         this.monitor = monitor;
@@ -66,7 +54,7 @@ public class WindowController {
      * Initializes the window controller.
      */
     public void initialize() {
-        // Where all error msgs get printed?
+        // Where all error msgs get printed
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Init GLFW

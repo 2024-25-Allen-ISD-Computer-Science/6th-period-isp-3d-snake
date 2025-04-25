@@ -10,5 +10,4 @@ public class Texture {
     public int getID() {
         return id;
     }
-
 }

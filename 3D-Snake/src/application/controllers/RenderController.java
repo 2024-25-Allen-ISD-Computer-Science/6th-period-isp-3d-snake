@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-import application.Entity;
+import application.entities.EntityAbstract;
 import utils.GameUtils;
 import utils.Transformation;
 
@@ -36,7 +36,7 @@ public class RenderController {
     /**
      * Method to render something
      */
-    public void render(Entity entity) {
+    public void render(EntityAbstract entity) {
         /* Removes all data from the screen */
         clear();
 

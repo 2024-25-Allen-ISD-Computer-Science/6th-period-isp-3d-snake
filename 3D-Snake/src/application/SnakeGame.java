@@ -8,7 +8,9 @@ import org.lwjgl.opengl.GL11;
 
 import application.controllers.RenderController;
 import application.controllers.WindowController;
+import application.entities.EntityAbstract;
 import application.entities.Snake;
+import application.entities.Teapot;
 import application.objects.Model;
 import application.objects.ObjectLoader;
 import application.objects.Texture;
@@ -23,8 +25,8 @@ public class SnakeGame implements ILogic {
     private final Snake snake;
 
     /* Entities and Models */
-    private ArrayList<Entity> entities;
-    private Entity teapot;
+    private ArrayList<EntityAbstract> entities;
+    private EntityAbstract teapot;
     // private Model model;
     // private Entity entity;
 
@@ -42,21 +44,13 @@ public class SnakeGame implements ILogic {
         OBJECT_LOADER = new ObjectLoader();
         snake = new Snake();
 
-        entities = new ArrayList<Entity>();
+        entities = new ArrayList<EntityAbstract>();
     }
 
-    private void createEntities() {
+    private final void createEntities() {
         /* Teapot */
-        Model teapotModel = OBJECT_LOADER.loadOBJModel("../resources/models/teapot.obj");
-        Texture teapotTexture;
-        try {
-            teapotTexture = new Texture(OBJECT_LOADER.loadTexture("./src/resources/textures/brick.png"));
-            teapotModel.setTexture(teapotTexture);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        teapot = new Entity(teapotModel, new Vector3f(0, 0, 0), new Vector3f(0, 0, 0), 0.2f);
-
+        teapot = new Teapot(OBJECT_LOADER);
+        teapot.setScale(0.2f);
         entities.add(teapot);
     }
 
@@ -64,43 +58,6 @@ public class SnakeGame implements ILogic {
     public void initialize() throws Exception {
         RENDERER.initialize();
         createEntities();
-
-        /* Initialize Entities */
-        for (Entity i : entities) {
-
-        }
-
-        // For testing purposes only
-        // float[] vertices = {
-        // // Coordinates guaranteed to work
-        // -0.5f, 0.5f, 0f,
-        // -0.5f, -0.5f, 0f,
-        // 0.5f, -0.5f, 0f,
-        // 0.5f, -0.5f, 0f,
-        // 0.5f, 0.5f, 0f,
-        // -0.5f, 0.5f, 0f
-        // };
-        // // int[] indices = {
-        // // 0, 0, 0,
-        // // 0, 0, 0,
-        // // 1, 1, 1
-        // // };
-        // int[] indices = {
-        // 0, 1, 3,
-        // 3, 1, 2
-        // };
-
-        // float[] textureCoords = {
-        // 0, 0,
-        // 0, 1,
-        // 1, 1,
-        // 1, 0
-        // };
-
-        // model = OBJECT_LOADER.loadModel(vertices, textureCoords, indices);
-        // model.setTexture(new
-        // Texture(OBJECT_LOADER.loadTexture("textures/grassblock.png")));
-        // entity = new Entity(model, new Vector3f(1, 0, 0), new Vector3f(0, 0, 0), 1);
     }
 
     /**
@@ -184,7 +141,7 @@ public class SnakeGame implements ILogic {
         WINDOW.setClearColor(color, color, color, 0f);
 
         /* Rendering entities */
-        for (Entity i : entities) {
+        for (EntityAbstract i : entities) {
             RENDERER.render(i);
         }
         // RENDERER.render(entity);
