@@ -26,7 +26,7 @@ public class SnakeGame implements ILogic {
 
     /* Entities and Models */
     private ArrayList<EntityAbstract> entities;
-    private EntityAbstract teapot;
+    private EntityAbstract apple;
     // private Model model;
     // private Entity entity;
 
@@ -49,9 +49,15 @@ public class SnakeGame implements ILogic {
 
     private final void createEntities() {
         /* Teapot */
-        teapot = new Teapot(OBJECT_LOADER);
-        teapot.setScale(0.2f);
-        entities.add(teapot);
+        // teapot = new Teapot(OBJECT_LOADER);
+        // teapot.setScale(0.2f);
+        // entities.add(teapot);
+
+        /* Apple */
+        apple = new EntityAbstract(OBJECT_LOADER, Constants.FruitConstants.APPLE_MODEL,
+                Constants.FruitConstants.APPLE_TEXTURE);
+        apple.setScale(0.2f);
+        entities.add(apple);
     }
 
     @Override
@@ -69,28 +75,28 @@ public class SnakeGame implements ILogic {
         // Render testing purposes only
         if (inputTick > Constants.InputConstants.INPUT_TICKS) {
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
-                teapot.getPos().x -= 0.1f;
+                apple.getPos().x -= 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) {
-                teapot.getPos().x += 0.1f;
+                apple.getPos().x += 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_UP)) {
-                teapot.getPos().y += 0.1f;
+                apple.getPos().y += 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_DOWN)) {
-                teapot.getPos().y -= 0.1f;
+                apple.getPos().y -= 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_Q)) {
-                teapot.getPos().z += 0.1f;
+                apple.getPos().z += 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_E)) {
-                teapot.getPos().z -= 0.1f;
+                apple.getPos().z -= 0.1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_A)) {
-                teapot.getRotation().y += 1f;
+                apple.getRotation().y += 1f;
             }
             if (WINDOW.isKeyPressed(GLFW.GLFW_KEY_D)) {
-                teapot.getRotation().y -= 1f;
+                apple.getRotation().y -= 1f;
             }
             inputTick = 0;
         } else {
